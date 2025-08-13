@@ -267,7 +267,7 @@ robot:
     pelvis_link: "Waist"
     base_link: "Trunk"
 
-    # Enable retargeting from SMPL to T1 robot
+    # enable retargeting from SMPL to T1 robot
     skip_retarget: False
     pre_retargeted: False
     
@@ -286,13 +286,13 @@ robot:
         pos: [0.0, 0.0, 0.0]
         rot: [1.0, 0.0, 0.0, 0.0]
 
-    # Motion tracking links for SMPL retargeting
+    # motion tracking links for SMPL retargeting
     motion_tracking_link:
       - "AL4"  # Left hand tracking
       - "AR4"  # Right hand tracking  
       - "H2"   # Head tracking
 
-    # Lower body links for motion tracking rewards
+    # lowerbody links for motion tracking rewards
     lower_body_link:
       - "Trunk"              # Base/torso
       - "Waist"              # Waist
@@ -309,7 +309,7 @@ robot:
       - "Ankle_Cross_Right"
       - "right_foot_link"
 
-    # Upper body links for motion tracking rewards  
+    # upperbody links for motion tracking rewards  
     upper_body_link:
       - "H1"                 # Head joints
       - "H2"
@@ -339,7 +339,7 @@ robot:
       - ["AR4", "R_Hand"]                      # Right hand
       - ["H2", "Head"]                         # Head
 
-    # SMPL pose modifier (copy from G1 for compatibility)
+    # SMPL pose modifier (copied from G1 for compatibility)
     smpl_pose_modifier:
       - Pelvis: "[np.pi/2, 0, np.pi/2]"
       - L_Shoulder: "[0, 0, -np.pi/2]"
