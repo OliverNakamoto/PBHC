@@ -24,16 +24,10 @@
         <mesh name="AL2" file="AL2.STL" />
         <mesh name="AL3" file="AL3.STL" />
         <mesh name="AL4" file="AL4.STL" />
-        <mesh name="AL5" file="AL5.STL" />
-        <mesh name="AL6" file="AL6.STL" />
-        <mesh name="AL7" file="AL7.STL" />
         <mesh name="AR1" file="AR1.STL" />
         <mesh name="AR2" file="AR2.STL" />
         <mesh name="AR3" file="AR3.STL" />
         <mesh name="AR4" file="AR4.STL" />
-        <mesh name="AR5" file="AR5.STL" />
-        <mesh name="AR6" file="AR6.STL" />
-        <mesh name="AR7" file="AR7.STL" />
         <mesh name="Waist" file="Waist.STL" />
         <mesh name="Hip_Pitch_Left" file="Hip_Pitch_Left.STL" />
         <mesh name="Hip_Roll_Left" file="Hip_Roll_Left.STL" />
