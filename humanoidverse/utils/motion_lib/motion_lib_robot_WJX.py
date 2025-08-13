@@ -313,6 +313,8 @@ class MotionLibBase():
         res = {}
         for f in track(range(len(motion_data_list)), description="Loading motions..."):
             curr_file:Dict[str, Any] = motion_data_list[f]
+            # print('current file is', curr_file)
+            # print(12213/0)
             if not isinstance(curr_file, dict) and osp.isfile(curr_file):
                 forbidden(lambda :0)()
                 key = motion_data_list[f].split("/")[-1].split(".")[0]

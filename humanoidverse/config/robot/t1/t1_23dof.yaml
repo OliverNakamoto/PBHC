@@ -1,0 +1,348 @@
+# @package _global_
+
+defaults:
+  - robot_base
+
+robot:
+  # Observation parameters - 23 DOF (freeze 6 hand joints)
+  num_bodies: 24  # T1 bodies after collapsing fixed joints
+  dof_obs_size: 23  # Reduced from 29 to 23
+  actions_dim: 23
+  lower_body_actions_dim: 13  # Waist + 2 legs (6 DOF each)
+  upper_body_actions_dim: 10  # 2 heads + 2 arms (4 DOF each)
+  policy_obs_dim: -1
+  critic_obs_dim: -1
+
+  key_bodies: ["left_foot_link", "right_foot_link"]
+  contact_bodies: ["left_foot_link", "right_foot_link"]
+  num_feet: 2
+  right_foot_name: "right_foot_link"
+  left_foot_name: "left_foot_link"
+  foot_name: "foot_link"
+  knee_name: "Shank"
+  has_torso: True
+  torso_name: "Trunk"
+  has_upper_body_dof: True
+  
+  # T1 joint names - 23 active DOF (hand joints frozen)
+  dof_names: ['AAHead_yaw', 'Head_pitch',
+              'Left_Shoulder_Pitch', 'Left_Shoulder_Roll', 'Left_Elbow_Pitch', 'Left_Elbow_Yaw', 
+              'Right_Shoulder_Pitch', 'Right_Shoulder_Roll', 'Right_Elbow_Pitch', 'Right_Elbow_Yaw',
+              'Waist',
+              'Left_Hip_Pitch', 'Left_Hip_Roll', 'Left_Hip_Yaw', 'Left_Knee_Pitch', 'Left_Ankle_Pitch', 'Left_Ankle_Roll',
+              'Right_Hip_Pitch', 'Right_Hip_Roll', 'Right_Hip_Yaw', 'Right_Knee_Pitch', 'Right_Ankle_Pitch', 'Right_Ankle_Roll']
+  
+  upper_dof_names: ['AAHead_yaw', 'Head_pitch',
+                    'Left_Shoulder_Pitch', 'Left_Shoulder_Roll', 'Left_Elbow_Pitch', 'Left_Elbow_Yaw',
+                    'Right_Shoulder_Pitch', 'Right_Shoulder_Roll', 'Right_Elbow_Pitch', 'Right_Elbow_Yaw']
+  
+  lower_dof_names: ['Waist',
+                    'Left_Hip_Pitch', 'Left_Hip_Roll', 'Left_Hip_Yaw', 'Left_Knee_Pitch', 'Left_Ankle_Pitch', 'Left_Ankle_Roll',
+                    'Right_Hip_Pitch', 'Right_Hip_Roll', 'Right_Hip_Yaw', 'Right_Knee_Pitch', 'Right_Ankle_Pitch', 'Right_Ankle_Roll']
+  
+  waist_dof_names: ['Waist']
+
+  # FROZEN JOINTS (set to default values, not controlled):
+  # 'Left_Wrist_Pitch', 'Left_Wrist_Yaw', 'Left_Hand_Roll',
+  # 'Right_Wrist_Pitch', 'Right_Wrist_Yaw', 'Right_Hand_Roll'
+
+  # Joint limits for 23 active joints only
+  dof_pos_lower_limit_list: [-1.57, -0.35,  # Head
+                             -3.31, -1.74, -2.27, -2.27,  # Left arm (no wrist/hand)
+                             -3.31, -1.57, -2.27, -2.27,  # Right arm (no wrist/hand)
+                             -1.57,  # Waist
+                             -1.8, -0.3, -1.0, 0.0, -0.87, -0.44,  # Left leg
+                             -1.8, -1.57, -1.0, 0.0, -0.87, -0.44]  # Right leg
+
+  dof_pos_upper_limit_list: [1.57, 1.22,  # Head
+                             1.22, 1.57, 2.27, 2.27,  # Left arm (no wrist/hand)
+                             1.22, 1.74, 2.27, 2.27,  # Right arm (no wrist/hand)
+                             1.57,  # Waist
+                             1.57, 1.57, 1.0, 2.34, 0.35, 0.44,  # Left leg
+                             1.57, 0.3, 1.0, 2.34, 0.35, 0.44]  # Right leg
+
+  # Velocity limits for 23 active joints
+  dof_vel_limit_list: [12.56, 12.56,  # Head
+                       18.84, 18.84, 18.84, 18.84,  # Left arm
+                       18.84, 18.84, 18.84, 18.84,  # Right arm
+                       10.88,  # Waist
+                       12.5, 10.9, 10.9, 11.7, 18.8, 12.4,  # Left leg
+                       12.5, 10.9, 10.9, 11.7, 18.8, 12.4]  # Right leg
+
+  # Torque limits for 23 active joints
+  dof_effort_limit_list: [7.0, 7.0,  # Head
+                          18.0, 18.0, 18.0, 18.0,  # Left arm
+                          18.0, 18.0, 18.0, 18.0,  # Right arm
+                          30.0,  # Waist
+                          45.0, 30.0, 30.0, 60.0, 12.0, 12.0,  # Left leg
+                          45.0, 30.0, 30.0, 60.0, 12.0, 12.0]  # Right leg
+
+  # Armature values for 23 active joints
+  dof_armature_list: [0.01, 0.01,  # Head
+                      0.01, 0.01, 0.01, 0.01,  # Left arm
+                      0.01, 0.01, 0.01, 0.01,  # Right arm
+                      0.01,  # Waist
+                      0.01, 0.01, 0.01, 0.01, 0.01, 0.01,  # Left leg
+                      0.01, 0.01, 0.01, 0.01, 0.01, 0.01]  # Right leg
+
+  # Joint friction for 23 active joints
+  dof_joint_friction_list: [0.01, 0.01,  # Head
+                            0.01, 0.01, 0.01, 0.01,  # Left arm
+                            0.01, 0.01, 0.01, 0.01,  # Right arm
+                            0.01,  # Waist
+                            0.01, 0.01, 0.01, 0.01, 0.01, 0.01,  # Left leg
+                            0.01, 0.01, 0.01, 0.01, 0.01, 0.01]  # Right leg
+
+  # Body names for T1 (after collapsing fixed joints)
+  body_names: ['Trunk', 'H1', 'H2',
+               'AL1', 'AL2', 'AL3', 'AL4',
+               'AR1', 'AR2', 'AR3', 'AR4',
+               'Waist',
+               'Hip_Pitch_Left', 'Hip_Roll_Left', 'Hip_Yaw_Left', 'Shank_Left', 'Ankle_Cross_Left', 'left_foot_link',
+               'Hip_Pitch_Right', 'Hip_Roll_Right', 'Hip_Yaw_Right', 'Shank_Right', 'Ankle_Cross_Right', 'right_foot_link']
+
+  terminate_after_contacts_on: ["Trunk", "Waist", "Hip"]
+  penalize_contacts_on: ["Trunk", "Waist", "Hip", "AL", "AR", "H"]
+  
+  init_state:
+    pos: [0.0, 0.0, 0.7]  # x,y,z [m] - T1 initial height
+    rot: [0.0, 0.0, 0.0, 1.0]  # x,y,z,w [quat]
+    lin_vel: [0.0, 0.0, 0.0]  # x,y,z [m/s]
+    ang_vel: [0.0, 0.0, 0.0]  # x,y,z [rad/s]
+    default_joint_angles:  # Default pose for T1 (23 active joints)
+      AAHead_yaw: 0.0
+      Head_pitch: 0.0
+      Left_Shoulder_Pitch: 0.0
+      Left_Shoulder_Roll: 0.2
+      Left_Elbow_Pitch: 0.0
+      Left_Elbow_Yaw: 0.0
+      Right_Shoulder_Pitch: 0.0
+      Right_Shoulder_Roll: -0.2
+      Right_Elbow_Pitch: 0.0
+      Right_Elbow_Yaw: 0.0
+      Waist: 0.0
+      Left_Hip_Pitch: -0.1
+      Left_Hip_Roll: 0.0
+      Left_Hip_Yaw: 0.0
+      Left_Knee_Pitch: 0.3
+      Left_Ankle_Pitch: -0.2
+      Left_Ankle_Roll: 0.0
+      Right_Hip_Pitch: -0.1
+      Right_Hip_Roll: 0.0
+      Right_Hip_Yaw: 0.0
+      Right_Knee_Pitch: 0.3
+      Right_Ankle_Pitch: -0.2
+      Right_Ankle_Roll: 0.0
+      # FROZEN joints keep default values:
+      # Left_Wrist_Pitch: 0.0, Left_Wrist_Yaw: 0.0, Left_Hand_Roll: 0.0
+      # Right_Wrist_Pitch: 0.0, Right_Wrist_Yaw: 0.0, Right_Hand_Roll: 0.0
+
+  control:
+    control_type: P
+    # PD Drive parameters for 23 active joints only
+    stiffness:  # [N*m/rad]
+      AAHead_yaw: 50
+      Head_pitch: 50
+      Left_Shoulder_Pitch: 100
+      Left_Shoulder_Roll: 100
+      Left_Elbow_Pitch: 80
+      Left_Elbow_Yaw: 80
+      Right_Shoulder_Pitch: 100
+      Right_Shoulder_Roll: 100
+      Right_Elbow_Pitch: 80
+      Right_Elbow_Yaw: 80
+      Waist: 200
+      Left_Hip_Pitch: 150
+      Left_Hip_Roll: 150
+      Left_Hip_Yaw: 100
+      Left_Knee_Pitch: 200
+      Left_Ankle_Pitch: 50
+      Left_Ankle_Roll: 50
+      Right_Hip_Pitch: 150
+      Right_Hip_Roll: 150
+      Right_Hip_Yaw: 100
+      Right_Knee_Pitch: 200
+      Right_Ankle_Pitch: 50
+      Right_Ankle_Roll: 50
+
+    damping:  # [N*m*s/rad]
+      AAHead_yaw: 1.0
+      Head_pitch: 1.0
+      Left_Shoulder_Pitch: 2.0
+      Left_Shoulder_Roll: 2.0
+      Left_Elbow_Pitch: 2.0
+      Left_Elbow_Yaw: 2.0
+      Right_Shoulder_Pitch: 2.0
+      Right_Shoulder_Roll: 2.0
+      Right_Elbow_Pitch: 2.0
+      Right_Elbow_Yaw: 2.0
+      Waist: 5.0
+      Left_Hip_Pitch: 3.0
+      Left_Hip_Roll: 3.0
+      Left_Hip_Yaw: 2.0
+      Left_Knee_Pitch: 4.0
+      Left_Ankle_Pitch: 2.0
+      Left_Ankle_Roll: 2.0
+      Right_Hip_Pitch: 3.0
+      Right_Hip_Roll: 3.0
+      Right_Hip_Yaw: 2.0
+      Right_Knee_Pitch: 4.0
+      Right_Ankle_Pitch: 2.0
+      Right_Ankle_Roll: 2.0
+
+    action_scale: 0.25
+    action_clip_value: 100.0
+    clip_torques: True
+
+  asset:
+    collapse_fixed_joints: True
+    replace_cylinder_with_capsule: True
+    flip_visual_attachments: False
+    armature: 0.001
+    thickness: 0.01
+    max_angular_velocity: 1000.
+    max_linear_velocity: 1000.
+    density: 0.001
+    angular_damping: 0.
+    linear_damping: 0.
+
+    urdf_file: "t1/t1_23dof.urdf"  # Need to create this
+    usd_file: "t1/t1_23dof.usd"   # Need to create this
+    xml_file: "t1/t1_23dof.xml"   # Need to create this
+    robot_type: t1_23dof
+    self_collisions: 0
+    default_dof_drive_mode: 3
+    fix_base_link: False
+
+  motion:
+    motion_lib_type: 'WJX'
+    motion_file: ???  # Will be specified in command line
+    asset:
+      assetRoot: "description/robots/t1/"
+      assetFileName: "t1_23dof.xml"
+
+    humanoid_type: t1_23dof
+    bias_offset: False
+    has_self_collision: True
+    has_mesh: False
+    has_jt_limit: False
+    has_dof_subset: False  # Use all active DOFs
+    has_upright_start: True
+    has_smpl_pd_offset: False
+    remove_toe: False
+    motion_sym_loss: False
+    sym_loss_coef: 1
+    big_ankle: True
+
+    has_shape_obs: false
+    has_shape_obs_disc: false
+    has_shape_variation: False
+
+    masterfoot: False
+    freeze_toe: false
+    freeze_hand: True  # Hand joints are frozen
+    box_body: True
+    real_weight: True
+    real_weight_porpotion_capsules: True
+    real_weight_porpotion_boxes: True
+
+    # T1 body names for motion tracking (after collapsing fixed joints)
+    body_names: ['Trunk', 'H1', 'H2',
+                 'AL1', 'AL2', 'AL3', 'AL4',
+                 'AR1', 'AR2', 'AR3', 'AR4',
+                 'Waist',
+                 'Hip_Pitch_Left', 'Hip_Roll_Left', 'Hip_Yaw_Left', 'Shank_Left', 'Ankle_Cross_Left', 'left_foot_link',
+                 'Hip_Pitch_Right', 'Hip_Roll_Right', 'Hip_Yaw_Right', 'Shank_Right', 'Ankle_Cross_Right', 'right_foot_link']
+
+    # DOF names for motion tracking (23 active DOF)
+    dof_names: ['AAHead_yaw', 'Head_pitch',
+                'Left_Shoulder_Pitch', 'Left_Shoulder_Roll', 'Left_Elbow_Pitch', 'Left_Elbow_Yaw',
+                'Right_Shoulder_Pitch', 'Right_Shoulder_Roll', 'Right_Elbow_Pitch', 'Right_Elbow_Yaw',
+                'Waist',
+                'Left_Hip_Pitch', 'Left_Hip_Roll', 'Left_Hip_Yaw', 'Left_Knee_Pitch', 'Left_Ankle_Pitch', 'Left_Ankle_Roll',
+                'Right_Hip_Pitch', 'Right_Hip_Roll', 'Right_Hip_Yaw', 'Right_Knee_Pitch', 'Right_Ankle_Pitch', 'Right_Ankle_Roll']
+    
+    right_foot_name: 'right_foot_link'
+    left_foot_name: 'left_foot_link'
+    pelvis_link: "Waist"
+    base_link: "Trunk"
+
+    # Enable retargeting from SMPL to T1 robot
+    skip_retarget: False
+    pre_retargeted: False
+    
+    nums_extend_bodies: 3
+    extend_config:
+      - joint_name: "AL4"        # T1's left hand body (physical)
+        parent_name: "AL4"       # Self-reference existing body
+        pos: [0.0, 0.0, 0.0]    # No offset needed
+        rot: [1.0, 0.0, 0.0, 0.0] # Identity quaternion (w,x,y,z)
+      - joint_name: "AR4"        # T1's right hand body (physical)
+        parent_name: "AR4"       # Self-reference existing body
+        pos: [0.0, 0.0, 0.0]
+        rot: [1.0, 0.0, 0.0, 0.0]
+      - joint_name: "H2"         # T1's head body (physical, controllable!)
+        parent_name: "H2"        # Self-reference existing body
+        pos: [0.0, 0.0, 0.0]
+        rot: [1.0, 0.0, 0.0, 0.0]
+
+    # Motion tracking links for SMPL retargeting
+    motion_tracking_link:
+      - "AL4"  # Left hand tracking
+      - "AR4"  # Right hand tracking  
+      - "H2"   # Head tracking
+
+    # Lower body links for motion tracking rewards
+    lower_body_link:
+      - "Trunk"              # Base/torso
+      - "Waist"              # Waist
+      - "Hip_Pitch_Left"     # Left hip
+      - "Hip_Roll_Left"
+      - "Hip_Yaw_Left"
+      - "Shank_Left"         # Left leg
+      - "Ankle_Cross_Left"
+      - "left_foot_link"
+      - "Hip_Pitch_Right"    # Right hip
+      - "Hip_Roll_Right"
+      - "Hip_Yaw_Right"
+      - "Shank_Right"        # Right leg
+      - "Ankle_Cross_Right"
+      - "right_foot_link"
+
+    # Upper body links for motion tracking rewards  
+    upper_body_link:
+      - "H1"                 # Head joints
+      - "H2"
+      - "AL1"                # Left arm
+      - "AL2"
+      - "AL3"
+      - "AL4"
+      - "AR1"                # Right arm
+      - "AR2"
+      - "AR3"
+      - "AR4"
+
+    # SMPL joint mapping for motion retargeting
+    joint_matches:
+      - ["Waist", "Pelvis"]                    # Root/pelvis mapping
+      - ["Hip_Pitch_Left", "L_Hip"]            # Left hip
+      - ["Shank_Left", "L_Knee"]               # Left knee
+      - ["left_foot_link", "L_Ankle"]          # Left ankle
+      - ["Hip_Pitch_Right", "R_Hip"]           # Right hip  
+      - ["Shank_Right", "R_Knee"]              # Right knee
+      - ["right_foot_link", "R_Ankle"]         # Right ankle
+      - ["AL2", "L_Shoulder"]                  # Left shoulder (roll joint)
+      - ["AL3", "L_Elbow"]                     # Left elbow
+      - ["AL4", "L_Hand"]                      # Left hand
+      - ["AR2", "R_Shoulder"]                  # Right shoulder (roll joint)
+      - ["AR3", "R_Elbow"]                     # Right elbow
+      - ["AR4", "R_Hand"]                      # Right hand
+      - ["H2", "Head"]                         # Head
+
+    # SMPL pose modifier (copy from G1 for compatibility)
+    smpl_pose_modifier:
+      - Pelvis: "[np.pi/2, 0, np.pi/2]"
+      - L_Shoulder: "[0, 0, -np.pi/2]"
+      - R_Shoulder: "[0, 0, np.pi/2]"
+      - L_Elbow: "[0, -np.pi/2, 0]"
+      - R_Elbow: "[0, np.pi/2, 0]"

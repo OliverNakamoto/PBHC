@@ -454,7 +454,14 @@ class IsaacGym(BaseSimulator):
             try:
                 torso_index = self._body_list.index("torso_link")
             except:
-                torso_index = self._body_list.index("pelvis") # for fixed upper URDF we only have pelvis link
+                try:
+                    torso_index = self._body_list.index("pelvis") # for fixed upper URDF we only have pelvis link
+                except:
+                    # Use pelvis_link from robot config if specified
+                    if hasattr(self.config.robot.motion, 'pelvis_link'):
+                        torso_index = self._body_list.index(self.config.robot.motion.pelvis_link)
+                    else:
+                        raise ValueError(f"Could not find torso body. Available bodies: {self._body_list}")
             assert torso_index != -1
 
             com_x_bias = np.random.uniform(self.env_config.domain_rand.base_com_range.x[0], self.env_config.domain_rand.base_com_range.x[1])
