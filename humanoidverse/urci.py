@@ -57,7 +57,7 @@ def main(override_config: OmegaConf):
         hydra_log_path = os.path.join(HydraConfig.get().runtime.output_dir, "eval.log")
         logger.remove()
         logger.add(hydra_log_path, level="DEBUG")
-/home/oliver/PBHC/logs/MotionTracking/20250808_164104-debug-motion_tracking-g1_23dof_lock_wrist/exported/model_0.onnx
+# /home/oliver/PBHC/logs/MotionTracking/20250808_164104-debug-motion_tracking-g1_23dof_lock_wrist/exported/model_0.onnx
         # Get log level from LOGURU_LEVEL environment variable or use INFO as default
         console_log_level = os.environ.get("LOGURU_LEVEL", "INFO").upper()
         logger.add(sys.stdout, level=console_log_level, colorize=True)
