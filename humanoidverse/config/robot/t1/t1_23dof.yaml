@@ -273,24 +273,24 @@ robot:
     
     nums_extend_bodies: 3
     extend_config:
-      - joint_name: "AL4"        # T1's left hand body (physical)
-        parent_name: "AL4"       # Self-reference existing body
-        pos: [0.0, 0.0, 0.0]    # No offset needed
-        rot: [1.0, 0.0, 0.0, 0.0] # Identity quaternion (w,x,y,z)
-      - joint_name: "AR4"        # T1's right hand body (physical)
-        parent_name: "AR4"       # Self-reference existing body
+      - joint_name: "AL4"        
+        parent_name: "AL4"       #self-reference existing body
+        pos: [0.0, 0.0, 0.0]    # No offset 
+        rot: [1.0, 0.0, 0.0, 0.0] #using identity quaternion
+      - joint_name: "AR4"       
+        parent_name: "AR4"       #self-reference
         pos: [0.0, 0.0, 0.0]
         rot: [1.0, 0.0, 0.0, 0.0]
-      - joint_name: "H2"         # T1's head body (physical, controllable!)
-        parent_name: "H2"        # Self-reference existing body
+      - joint_name: "H2"         
+        parent_name: "H2"        #self-reference
         pos: [0.0, 0.0, 0.0]
         rot: [1.0, 0.0, 0.0, 0.0]
 
     # motion tracking links for SMPL retargeting
     motion_tracking_link:
-      - "AL4"  # Left hand tracking
-      - "AR4"  # Right hand tracking  
-      - "H2"   # Head tracking
+      - "AL4"  
+      - "AR4"   #self-reference existing body
+      - "H2" 
 
     # lowerbody links for motion tracking rewards
     lower_body_link:
