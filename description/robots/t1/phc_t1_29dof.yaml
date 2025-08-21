@@ -1,0 +1,101 @@
+humanoid_type: t1_29dof
+bias_offset: False
+has_self_collision: True
+has_mesh: False
+has_jt_limit: False
+has_dof_subset: True
+has_upright_start: True
+has_smpl_pd_offset: False
+remove_toe: False # For humanoid's geom toe
+motion_sym_loss: False
+sym_loss_coef: 1
+big_ankle: True
+
+has_shape_obs: false
+has_shape_obs_disc: false
+has_shape_variation: False
+
+masterfoot: False
+freeze_toe: false
+freeze_hand: False
+box_body: True
+real_weight: True
+real_weight_porpotion_capsules: True
+real_weight_porpotion_boxes: True
+
+body_names: ['Trunk', 'H1', 'H2', 
+             'AL1', 'AL2', 'AL3', 'AL4', 'AL5', 'AL6', 'left_hand_link',
+             'AR1', 'AR2', 'AR3', 'AR4', 'AR5', 'AR6', 'right_hand_link',
+             'Waist', 
+             'Hip_Pitch_Left', 'Hip_Roll_Left', 'Hip_Yaw_Left', 'Shank_Left', 'Ankle_Cross_Left', 'left_foot_link', 
+             'Hip_Pitch_Right', 'Hip_Roll_Right', 'Hip_Yaw_Right', 'Shank_Right', 'Ankle_Cross_Right', 'right_foot_link']
+
+limb_weight_group:
+  - ['Hip_Pitch_Left', 'Hip_Roll_Left', 'Hip_Yaw_Left', 'Shank_Left', 'Ankle_Cross_Left', 'left_foot_link']
+  - ['Hip_Pitch_Right', 'Hip_Roll_Right', 'Hip_Yaw_Right', 'Shank_Right', 'Ankle_Cross_Right', 'right_foot_link']
+  - ['Trunk', 'H1', 'H2', 'Waist']
+  - ['AL1', 'AL2', 'AL3', 'AL4', 'AL5', 'AL6', 'left_hand_link']
+  - ['AR1', 'AR2', 'AR3', 'AR4', 'AR5', 'AR6', 'right_hand_link']
+
+dof_names: ['AAHead_yaw', 'Head_pitch',
+            'Left_Shoulder_Pitch', 'Left_Shoulder_Roll', 'Left_Elbow_Pitch', 'Left_Elbow_Yaw', 'Left_Wrist_Pitch', 'Left_Wrist_Yaw', 'Left_Hand_Roll',
+            'Right_Shoulder_Pitch', 'Right_Shoulder_Roll', 'Right_Elbow_Pitch', 'Right_Elbow_Yaw', 'Right_Wrist_Pitch', 'Right_Wrist_Yaw', 'Right_Hand_Roll',
+            'Waist',
+            'Left_Hip_Pitch', 'Left_Hip_Roll', 'Left_Hip_Yaw', 'Left_Knee_Pitch', 'Left_Ankle_Pitch', 'Left_Ankle_Roll',
+            'Right_Hip_Pitch', 'Right_Hip_Roll', 'Right_Hip_Yaw', 'Right_Knee_Pitch', 'Right_Ankle_Pitch', 'Right_Ankle_Roll']
+
+right_foot_name: 'right_foot_link'
+left_foot_name: 'left_foot_link'
+
+asset:
+  assetRoot: "./"
+  assetFileName: "description/robots/t1/t1_29dof.xml"
+  urdfFileName: "description/robots/t1/t1_29dof.xml"
+
+extend_config:
+  - joint_name: "real_left_hand_link"
+    parent_name: "left_hand_link"
+    pos: [0.0, 0.1, 0.0]
+    rot: [1.0, 0.0, 0.0, 0.0] # w x y z
+  - joint_name: "real_right_hand_link"
+    parent_name: "right_hand_link"
+    pos: [0.0, -0.1, 0.0]
+    rot: [1.0, 0.0, 0.0, 0.0] # w x y z
+  - joint_name: "real_H2"
+    parent_name: "Trunk"
+    pos: [0.0, 0.0, 0.5]
+    rot: [1.0, 0.0, 0.0, 0.0] # w x y z
+  - joint_name: "left_toe_link"
+    parent_name: "left_foot_link"
+    pos: [ 0.08, 0, -0.06 ]
+    rot: [ 1.0, 0.0, 0.0, 0.0 ] # w x y z
+  - joint_name: "right_toe_link"
+    parent_name: "right_foot_link"
+    pos: [ 0.08, 0, -0.06 ]
+    rot: [ 1.0, 0.0, 0.0, 0.0 ] # w x y z
+
+base_link: "Trunk"
+joint_matches:
+  - [ "Waist", "Pelvis" ]
+  - [ "Hip_Pitch_Left", "L_Hip" ]
+  - [ "Shank_Left", "L_Knee" ]
+  - [ "left_foot_link", "L_Ankle" ]
+  - [ "Hip_Pitch_Right", "R_Hip" ]
+  - [ "Shank_Right", "R_Knee" ]
+  - [ "right_foot_link", "R_Ankle" ]
+  - [ "AL1", "L_Shoulder" ]
+  - [ "AL4", "L_Elbow" ]
+  - [ "real_left_hand_link", "L_Hand" ]
+  - [ "AR1", "R_Shoulder" ]
+  - [ "AR4", "R_Elbow" ]
+  - [ "real_right_hand_link", "R_Hand" ]
+  - [ "real_H2", "Head" ]
+  - [ "left_toe_link", "L_Toe" ]
+  - [ "right_toe_link", "R_Toe" ]
+
+smpl_pose_modifier:
+  - Pelvis: "[np.pi/2, 0, np.pi/2]"
+  - L_Shoulder: "[0, 0, 0]"
+  - R_Shoulder: "[0, 0, 0]"
+  - L_Elbow: "[0, 0, 0]"
+  - R_Elbow: "[0, 0, 0]"
