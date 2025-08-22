@@ -385,7 +385,8 @@ class URCIRobot:
         self.dof_names = self.cfg.robot.dof_names
         self.num_bodies = len(self.body_names)
         self.num_dofs = len(self.dof_names)
-        assert self.num_dofs == 23, "Only 23 dofs are supported for now"
+        # Remove hardcoded DOF assertion to support different robot configurations
+        # assert self.num_dofs == 23, "Only 23 dofs are supported for now"
         
         
         dof_init_pose = cfg_init_state.default_joint_angles
@@ -431,9 +432,11 @@ class URCIRobot:
         self.relyaw = np.zeros(1,dtype=np.float32)
         self.dif_joint_angles = torch.zeros(self.num_dofs, dtype=torch.float32)
         self.dif_joint_velocities = torch.zeros(self.num_dofs, dtype=torch.float32)
-        self._obs_global_ref_body_vel = torch.zeros(27*3, dtype=torch.float32)  # 27 rigid bodies, each has 3 velocity components
-        self._obs_local_ref_rigid_body_vel = torch.zeros(27*3, dtype=torch.float32)
-        self._obs_local_ref_rigid_body_pos_relyaw = torch.zeros(27*3, dtype=torch.float32)
+        # Calculate number of rigid bodies including extended bodies
+        num_rigid_bodies_with_extend = self.num_bodies + len(self.cfg.robot.motion.extend_config) if 'extend_config' in self.cfg.robot.motion else self.num_bodies
+        self._obs_global_ref_body_vel = torch.zeros(num_rigid_bodies_with_extend*3, dtype=torch.float32)  # rigid bodies, each has 3 velocity components
+        self._obs_local_ref_rigid_body_vel = torch.zeros(num_rigid_bodies_with_extend*3, dtype=torch.float32)
+        self._obs_local_ref_rigid_body_pos_relyaw = torch.zeros(num_rigid_bodies_with_extend*3, dtype=torch.float32)
         ...
         
     def _make_motionlib(self, cfg_policies: List[URCIPolicyObs]):
