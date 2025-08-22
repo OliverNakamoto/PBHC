@@ -31,7 +31,7 @@ algo:
 
     init_noise_std: 0.8
 
-    num_learning_iterations: 1000000 #1,000,000
+    num_learning_iterations: 50000  #i thoguth the used 1M since that was in this config but 50k is the correct from apper.. 1000000 #1,000,000
     init_at_random_ep_len: True
     eval_callbacks: null
 
@@ -46,7 +46,7 @@ algo:
         output_dim: [robot_action_dim]
         layer_config:
           type: MLP
-          hidden_dims: [512, 256, 128]
+          hidden_dims: [256, 128, 64] #divided everything by /2 comaped to original
           activation: ELU
       critic: 
         type: MLP
